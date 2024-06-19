@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2487wg3a51go"
-path="res://.godot/imported/ExampleScene.png-f25aff2d7c19e09fd46e5f1675376017.ctex"
+uid="uid://bi731ypmsrd2q"
+path="res://.godot/imported/ExampleFishingScene.png-dabd13fbade672e932285e1833c9ac6f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/maps/ExampleScene.png"
-dest_files=["res://.godot/imported/ExampleScene.png-f25aff2d7c19e09fd46e5f1675376017.ctex"]
+source_file="res://assets/sprites/maps/ExampleFishingScene.png"
+dest_files=["res://.godot/imported/ExampleFishingScene.png-dabd13fbade672e932285e1833c9ac6f.ctex"]
 
 [params]
 
