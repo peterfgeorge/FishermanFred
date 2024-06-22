@@ -16,7 +16,6 @@ texture_filter = 1
 scale = Vector2(0.512, 0.45)
 texture = ExtResource("1_586xg")
 centered = false
-metadata/_edit_lock_ = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
