@@ -33,4 +33,4 @@ shape = SubResource("RectangleShape2D_demf0")
 
 [node name="Player" parent="." instance=ExtResource("2_2ck58")]
 position = Vector2(116, 491)
-scale = Vector2(2.5, 2.5)
+scale = Vector2(3.5, 3.5)
