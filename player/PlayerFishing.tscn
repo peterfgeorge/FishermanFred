@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4dyxg7f2altb"]
+
+[ext_resource type="Texture2D" uid="uid://cbvj6h37m8vqw" path="res://assets/sprites/player/fishing/PlayerFishing1.png" id="1_0hl31"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0srwy"]
+atlas = ExtResource("1_0hl31")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq1fd"]
+atlas = ExtResource("1_0hl31")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hc3b4"]
+atlas = ExtResource("1_0hl31")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lysl2"]
+atlas = ExtResource("1_0hl31")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1ovs"]
+atlas = ExtResource("1_0hl31")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ylypv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0srwy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qq1fd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hc3b4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lysl2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1ovs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="PlayerFishing" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ylypv")

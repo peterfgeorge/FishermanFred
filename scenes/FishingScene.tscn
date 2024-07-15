@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtr418ey1a3wx"]
+
+[ext_resource type="Texture2D" uid="uid://drgtb3imilyog" path="res://assets/sprites/maps/FishingScene.png" id="1_qfwih"]
+
+[node name="FishingScene" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(1132, 730)
+texture = ExtResource("1_qfwih")
