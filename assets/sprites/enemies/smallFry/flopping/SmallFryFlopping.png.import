@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://coept5bljf3we"
-path="res://.godot/imported/SmallFryFlopping.png-535f069cff6017512e517e304f611ef1.ctex"
+path="res://.godot/imported/SmallFryFlopping.png-aee7c643b72b0f5068bb9e0d86b2e237.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemies/smallFry/SmallFryFlopping.png"
-dest_files=["res://.godot/imported/SmallFryFlopping.png-535f069cff6017512e517e304f611ef1.ctex"]
+source_file="res://assets/sprites/enemies/smallFry/flopping/SmallFryFlopping.png"
+dest_files=["res://.godot/imported/SmallFryFlopping.png-aee7c643b72b0f5068bb9e0d86b2e237.ctex"]
 
 [params]
 
