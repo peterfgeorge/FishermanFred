@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ddypug6kvsg67"]
+[gd_scene load_steps=30 format=3 uid="uid://ddypug6kvsg67"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_xkux6"]
 [ext_resource type="Texture2D" uid="uid://cs0f0xk6oxfj4" path="res://assets/sprites/player/spriteSheet/PlayerSpriteSheet.png" id="2_7n2f4"]
@@ -292,6 +292,35 @@ _data = {
 "Slash": SubResource("Animation_xifaj")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m7vss"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5np1l"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sqapd"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_13sey"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_m7vss")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_5np1l")
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_sqapd")
+blend_point_2/pos = -1.0
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vd23y"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_yylk0"]
+states/End/position = Vector2(912, 100.188)
+states/Run/node = SubResource("AnimationNodeBlendSpace1D_13sey")
+states/Run/position = Vector2(456.567, 100.156)
+states/Start/position = Vector2(17.5, 100.25)
+transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_vd23y")]
+graph_offset = Vector2(-410.434, -130.56)
+
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
 script = ExtResource("1_xkux6")
@@ -305,11 +334,16 @@ position = Vector2(1.96875, -4.96875)
 scale = Vector2(0.0501302, 0.0501302)
 sprite_frames = SubResource("SpriteFrames_j8nin")
 animation = &"Idle"
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_4ilbc")
 }
-autoplay = "Idle"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_yylk0")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Run/blend_position = 0.003
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

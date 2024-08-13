@@ -1,75 +1,79 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var speed : float = 200.0
+@export var jump_velocity : float = -150.0
+@export var double_jump_velocity : float = -100
+@export var animation_player: AnimationPlayer
+
+@onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_tree : AnimationTree = $AnimationTree
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var has_double_jumped : bool = false
+var animation_locked : bool = false
+var direction : Vector2 = Vector2.ZERO
+var was_in_air : bool = false
+var state_machine: AnimationNodeStateMachinePlayback
 
-@onready var anim = get_node("AnimationPlayer")
-@onready var sprite = get_node("AnimatedSprite2D")
+func _ready():
+	animation_tree.active = true
+	state_machine = animation_tree.get("parameters/playback")
 
-var is_slashing = false
-var slash_held = false
+func _process(delta):
+	var current_anim = state_machine.get_current_node()
+	print("Currently playing animation: ", current_anim)
 
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
+		was_in_air = true
+	else:
+		has_double_jumped = false
+		
+		if was_in_air == true:
+			land()
+			
+		was_in_air = false
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and not is_slashing:
-		velocity.y = JUMP_VELOCITY
-		anim.play("Jump")
-
-	# Handle slash attack.
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and is_on_floor() and not is_slashing and not slash_held:
-		anim.play("Slash")
-		is_slashing = true
-		slash_held = true
-		return # Skip the rest of the movement code while slashing
-
-	# Reset slash_held when the left mouse button is released
-	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		slash_held = false
+	# Handle Jump.
+	#if Input.is_action_just_pressed("jump"):
+		#if is_on_floor():
+			## Normal jump from floor
+			#jump()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction == -1:
-		sprite.flip_h = true
-	elif direction == 1:
-		sprite.flip_h = false
-
-	# Handle movement and animation only if not slashing
-	if not is_slashing:
-		if direction != 0:
-			velocity.x = direction * SPEED
-			if is_on_floor():
-				anim.play("Run")
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			if is_on_floor():
-				anim.play("Idle")
-
-		if not is_on_floor():
-			anim.play("Fall")
+	direction = Input.get_vector("left", "right", "up", "down")
 	
-	move_and_slide()
-
-func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "Slash":
-		is_slashing = false
-		# Ensure the correct animation is played after slashing
-		update_animation_state()
-
-func update_animation_state():
-	if is_slashing:
-		return
-
-	if not is_on_floor():
-		anim.play("Fall")
-	elif velocity.x == 0:
-		anim.play("Idle")
+	if direction.x != 0:
+		velocity.x = direction.x * speed
 	else:
-		anim.play("Run")
+		velocity.x = move_toward(velocity.x, 0, speed)
+
+	move_and_slide()
+	update_animation()
+	update_facing_direction()
+	
+func update_animation():
+	animation_tree.set("parameters/Run/blend_position", direction.x)
+
+func update_facing_direction():
+	if direction.x > 0:
+		animated_sprite.flip_h = false
+	elif direction.x < 0:
+		animated_sprite.flip_h = true
+		
+func jump():
+	velocity.y = jump_velocity
+	#animated_sprite.play("jump_start")
+	animation_locked = true
+
+func land():
+	#animated_sprite.play("jump_end")
+	animation_locked = true
+
+#func _on_animated_sprite_2d_animation_finished():
+	#if(["jump_end", "jump_start", "jump_double"].has(animated_sprite.animation)):
+		#animation_locked = false
