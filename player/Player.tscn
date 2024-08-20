@@ -1,7 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://ddypug6kvsg67"]
+[gd_scene load_steps=40 format=3 uid="uid://ddypug6kvsg67"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_xkux6"]
 [ext_resource type="Texture2D" uid="uid://cs0f0xk6oxfj4" path="res://assets/sprites/player/spriteSheet/PlayerSpriteSheet.png" id="2_7n2f4"]
+[ext_resource type="Script" path="res://player/CharacterStateMachine.gd" id="3_7f5hw"]
+[ext_resource type="Script" path="res://player/GroundState.gd" id="4_0m12i"]
+[ext_resource type="Script" path="res://player/AirState.gd" id="5_44a3w"]
+[ext_resource type="Script" path="res://player/LandingState.gd" id="6_nydj8"]
+[ext_resource type="Script" path="res://player/StateDebugLabel.gd" id="7_1f44g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bx27u"]
 size = Vector2(8, 14)
@@ -292,6 +297,12 @@ _data = {
 "Slash": SubResource("Animation_xifaj")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_awpwg"]
+animation = &"Fall"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jkr0u"]
+animation = &"Jump"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m7vss"]
 animation = &"Idle"
 
@@ -313,12 +324,24 @@ blend_mode = 1
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vd23y"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ien1g"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_b7n8w"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_l04ng"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_yylk0"]
 states/End/position = Vector2(912, 100.188)
+states/Fall/node = SubResource("AnimationNodeAnimation_awpwg")
+states/Fall/position = Vector2(624.066, -47.935)
+states/Jump/node = SubResource("AnimationNodeAnimation_jkr0u")
+states/Jump/position = Vector2(449.066, -48.56)
 states/Run/node = SubResource("AnimationNodeBlendSpace1D_13sey")
 states/Run/position = Vector2(456.567, 100.156)
 states/Start/position = Vector2(17.5, 100.25)
-transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_vd23y")]
+transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_vd23y"), "Run", "Jump", SubResource("AnimationNodeStateMachineTransition_ien1g"), "Jump", "Fall", SubResource("AnimationNodeStateMachineTransition_b7n8w"), "Fall", "Run", SubResource("AnimationNodeStateMachineTransition_l04ng")]
 graph_offset = Vector2(-410.434, -130.56)
 
 [node name="Player" type="CharacterBody2D"]
@@ -345,5 +368,33 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_yylk0")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Run/blend_position = 0.003
+
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
+script = ExtResource("3_7f5hw")
+character = NodePath("..")
+animation_tree = NodePath("../AnimationTree")
+current_state = NodePath("Ground")
+
+[node name="Ground" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("air_state")]
+script = ExtResource("4_0m12i")
+air_state = NodePath("../Air")
+
+[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state")]
+script = ExtResource("5_44a3w")
+ground_state = NodePath("../Ground")
+
+[node name="Landing" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("6_nydj8")
+can_move = false
+
+[node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
+offset_left = -29.0
+offset_top = -22.0
+offset_right = 59.0
+offset_bottom = 1.0
+scale = Vector2(0.486458, 0.502417)
+text = "State: "
+script = ExtResource("7_1f44g")
+state_machine = NodePath("../CharacterStateMachine")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

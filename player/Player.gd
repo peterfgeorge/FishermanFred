@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
 @export var speed : float = 200.0
-@export var jump_velocity : float = -150.0
+
 @export var double_jump_velocity : float = -100
-@export var animation_player: AnimationPlayer
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_tree : AnimationTree = $AnimationTree
+@onready var state_machine : CharacterStateMachine = $CharacterStateMachine
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -14,15 +14,9 @@ var has_double_jumped : bool = false
 var animation_locked : bool = false
 var direction : Vector2 = Vector2.ZERO
 var was_in_air : bool = false
-var state_machine: AnimationNodeStateMachinePlayback
 
 func _ready():
 	animation_tree.active = true
-	state_machine = animation_tree.get("parameters/playback")
-
-func _process(delta):
-	var current_anim = state_machine.get_current_node()
-	print("Currently playing animation: ", current_anim)
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -41,13 +35,15 @@ func _physics_process(delta):
 	#if Input.is_action_just_pressed("jump"):
 		#if is_on_floor():
 			## Normal jump from floor
-			#jump()
+			# jump()
+			
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	direction = Input.get_vector("left", "right", "up", "down")
 	
-	if direction.x != 0:
+	# Control whether to move or not to move
+	if direction.x != 0 && state_machine.check_if_can_move():
 		velocity.x = direction.x * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
@@ -65,10 +61,10 @@ func update_facing_direction():
 	elif direction.x < 0:
 		animated_sprite.flip_h = true
 		
-func jump():
-	velocity.y = jump_velocity
+#func jump():
+	#velocity.y = jump_velocity
 	#animated_sprite.play("jump_start")
-	animation_locked = true
+	#animation_locked = true
 
 func land():
 	#animated_sprite.play("jump_end")
