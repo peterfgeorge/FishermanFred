@@ -19,3 +19,6 @@ func on_enter():
 
 func on_exit():
 	pass
+
+func is_on_floor():
+	pass

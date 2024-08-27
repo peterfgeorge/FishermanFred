@@ -17,20 +17,20 @@ scale = Vector2(0.512, 0.45)
 texture = ExtResource("1_586xg")
 centered = false
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(561, 530)
-shape = SubResource("RectangleShape2D_iekxx")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(27, 408)
-shape = SubResource("RectangleShape2D_demf0")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1095, 408)
-shape = SubResource("RectangleShape2D_demf0")
-
 [node name="Player" parent="." instance=ExtResource("2_2ck58")]
 position = Vector2(116, 491)
 scale = Vector2(3.5, 3.5)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(561, 530)
+shape = SubResource("RectangleShape2D_iekxx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(27, 408)
+shape = SubResource("RectangleShape2D_demf0")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1095, 408)
+shape = SubResource("RectangleShape2D_demf0")
