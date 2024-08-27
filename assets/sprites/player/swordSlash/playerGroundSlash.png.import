@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coept5bljf3we"
-path="res://.godot/imported/SmallFryFlopping.png-535f069cff6017512e517e304f611ef1.ctex"
+uid="uid://bcu80rhnkex3d"
+path="res://.godot/imported/playerGroundSlash.png-6ec58b4c754c6d26150e3f7478f73ec9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemies/smallFry/SmallFryFlopping.png"
-dest_files=["res://.godot/imported/SmallFryFlopping.png-535f069cff6017512e517e304f611ef1.ctex"]
+source_file="res://assets/sprites/player/swordSlash/playerGroundSlash.png"
+dest_files=["res://.godot/imported/playerGroundSlash.png-6ec58b4c754c6d26150e3f7478f73ec9.ctex"]
 
 [params]
 
